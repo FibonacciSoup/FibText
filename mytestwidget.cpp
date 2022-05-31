@@ -4,6 +4,11 @@
 #include <QTextStream>
 #include <iostream>
 #include <cstring>
+#include <algorithm>
+
+typedef long long LL;
+
+const int maxn=1005;
 
 myTestWidget::myTestWidget(QWidget *parent) :
     QWidget(parent),
@@ -74,3 +79,47 @@ void myTestWidget::on_pushButton_16_clicked()
 {
     ui->textEdit_2->setPlainText("");
 }//右文本框清除
+
+void my_compare(int x,int y,QString* s1,QString* s2,QString* ans1,QString* ans2,int f[][maxn]){
+    if(x==0&&y==0)return;
+    if(x==0){
+        my_compare(x,y-1,s1,s2,ans1,ans2,f);
+        ans2->append('_');
+        return;
+    }
+    if(y==0){
+        my_compare(x-1,y,s1,s2,ans1,ans2,f);
+        ans1->append('_');
+        return;
+    }
+    if(s1->at(x-1)==s2->at(y-1)){
+        my_compare(x-1,y-1,s1,s2,ans1,ans2,f);
+        ans1->append(s1->at(x-1));
+        ans2->append(s2->at(y-1));
+        return;
+    }
+    if(f[x-1][y]>f[x][y-1]){
+        my_compare(x-1,y,s1,s2,ans1,ans2,f);
+        ans1->append('_');
+    }else{
+        my_compare(x,y-1,s1,s2,ans1,ans2,f);
+        ans2->append('_');
+    }
+}
+
+void myTestWidget::on_pushButton_6_clicked()
+{
+    QString s1 = ui->textEdit_1->toPlainText();
+    QString s2 = ui->textEdit_2->toPlainText();
+    int len1=static_cast<int>(s1.length());
+    int len2=static_cast<int>(s2.length());
+    int f[maxn][maxn];
+    for(int i=1;i<=len1;i++)
+        for(int j=1;j<=len2;j++)
+            if(s1.at(i-1)==s2.at(j-1))f[i][j]=f[i-1][j-1]+1;
+                else f[i][j]=std::max(f[i-1][j-1],std::max(f[i-1][j],f[i][j-1]));
+    QString ans1="",ans2="";
+    my_compare(len1,len2,&s1,&s2,&ans1,&ans2,f);
+    ui->textEdit_1->setText(ans1);
+    ui->textEdit_2->setText(ans2);
+}
