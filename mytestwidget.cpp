@@ -4,13 +4,15 @@
 #include <QTextStream>
 #include <QBrush>
 #include <QTextCharFormat>
+#include <QScrollBar>
+#include <QTextCursor>
 #include <iostream>
 #include <cstring>
 #include <algorithm>
 
 typedef long long LL;
 
-const int maxn=1005;
+const int maxn=2000;
 
 static int f[maxn][maxn];
 
@@ -19,6 +21,27 @@ myTestWidget::myTestWidget(QWidget *parent) :
     ui(new Ui::myTestWidget)
 {
     ui->setupUi(this);
+    this->setFixedSize(this->width(),this->height()); //固定窗口大小
+    ui->label->setText("第 1 行, 第 1 列");
+    ui->label_2->setText("第 1 行, 第 1 列");
+    ui->tabWidget->setTabText(0,"比较");
+    ui->tabWidget->setTabText(1,"查找");
+    ui->tabWidget->setTabText(2,"统计");
+    ui->tabWidget->setTabText(3,"显示");
+
+    //左右文本框同步滚动
+    QScrollBar* QSB_left=ui->textEdit_1->verticalScrollBar();
+    QScrollBar* QSB_right=ui->textEdit_2->verticalScrollBar();
+    connect(QSB_left,SIGNAL(valueChanged(int)),this,SLOT(leftVerticalScroll()));
+    connect(QSB_right,SIGNAL(valueChanged(int)),this,SLOT(rightVerticalScroll()));
+    QScrollBar* QSB_left_h=ui->textEdit_1->horizontalScrollBar();
+    QScrollBar* QSB_right_h=ui->textEdit_2->horizontalScrollBar();
+    connect(QSB_left_h,SIGNAL(valueChanged(int)),this,SLOT(leftHorizontalScroll()));
+    connect(QSB_right_h,SIGNAL(valueChanged(int)),this,SLOT(rightHorizontalScroll()));
+
+    //显示行列号
+    connect(ui->textEdit_1,SIGNAL(cursorPositionChanged()),this,SLOT(leftShowLineNum()));
+    connect(ui->textEdit_2,SIGNAL(cursorPositionChanged()),this,SLOT(rightShowLineNum()));
 }
 
 myTestWidget::~myTestWidget()
@@ -147,4 +170,52 @@ void myTestWidget::on_pushButton_6_clicked()
     //ui->textEdit_2->setText(ans2);
     highlight_out(ui->textEdit_1,&ans1,&s1);
     highlight_out(ui->textEdit_2,&ans2,&s2);
+}//文本比较
+
+void myTestWidget::leftVerticalScroll()
+{
+    QScrollBar* QSB_left=ui->textEdit_1->verticalScrollBar();
+    QScrollBar* QSB_right=ui->textEdit_2->verticalScrollBar();
+    QSB_right->setValue(QSB_left->value());
+}
+
+void myTestWidget::rightVerticalScroll()
+{
+    QScrollBar* QSB_left=ui->textEdit_1->verticalScrollBar();
+    QScrollBar* QSB_right=ui->textEdit_2->verticalScrollBar();
+    QSB_left->setValue(QSB_right->value());
+}
+
+void myTestWidget::leftHorizontalScroll()
+{
+    QScrollBar* QSB_left_h=ui->textEdit_1->horizontalScrollBar();
+    QScrollBar* QSB_right_h=ui->textEdit_2->horizontalScrollBar();
+    QSB_right_h->setValue(QSB_left_h->value());
+}
+
+void myTestWidget::rightHorizontalScroll()
+{
+    QScrollBar* QSB_left_h=ui->textEdit_1->horizontalScrollBar();
+    QScrollBar* QSB_right_h=ui->textEdit_2->horizontalScrollBar();
+    QSB_left_h->setValue(QSB_right_h->value());
+}
+
+void myTestWidget::leftShowLineNum()
+{
+    QTextCursor tc=ui->textEdit_1->textCursor();
+    int lineNum=tc.blockNumber()+1;
+    int columnNum=tc.columnNumber()+1;
+    QString s="第 ";
+    s=s+QString::number(lineNum)+" 行, 第 "+QString::number(columnNum)+" 列";
+    ui->label->setText(s);
+}
+
+void myTestWidget::rightShowLineNum()
+{
+    QTextCursor tc=ui->textEdit_2->textCursor();
+    int lineNum=tc.blockNumber()+1;
+    int columnNum=tc.columnNumber()+1;
+    QString s="第 ";
+    s=s+QString::number(lineNum)+" 行, 第 "+QString::number(columnNum)+" 列";
+    ui->label_2->setText(s);
 }

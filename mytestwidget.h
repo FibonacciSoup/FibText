@@ -30,6 +30,18 @@ private slots:
 
     void on_pushButton_6_clicked();
 
+    void leftVerticalScroll();
+
+    void rightVerticalScroll();
+
+    void leftHorizontalScroll();
+
+    void rightHorizontalScroll();
+
+    void leftShowLineNum();
+
+    void rightShowLineNum();
+
 private:
     Ui::myTestWidget *ui;
 };

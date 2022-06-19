@@ -18,3 +18,6 @@ SOURCES += main.cpp\
 HEADERS  += mytestwidget.h
 
 FORMS    += mytestwidget.ui
+
+RESOURCES += \
+    image.qrc
