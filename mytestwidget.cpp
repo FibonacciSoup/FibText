@@ -9,6 +9,8 @@
 #include <iostream>
 #include <cstring>
 #include <algorithm>
+#include <QApplication>
+#include <QDebug>
 
 typedef long long LL;
 
@@ -42,6 +44,40 @@ myTestWidget::myTestWidget(QWidget *parent) :
     //显示行列号
     connect(ui->textEdit_1,SIGNAL(cursorPositionChanged()),this,SLOT(leftShowLineNum()));
     connect(ui->textEdit_2,SIGNAL(cursorPositionChanged()),this,SLOT(rightShowLineNum()));
+
+    //set icon for cursor
+    QCursor cursor,cursor1,cursor2;
+    QString s = QCoreApplication::applicationDirPath();
+    LL p = s.indexOf("build",0);
+    QPixmap dir(s.left(p)+"/files/FibText-main/icons8-hand-cursor.svg");
+    QPixmap dir1(s.left(p)+"/files/FibText-main/icons8-cursor-96.png");
+    QPixmap dir2(s.left(p)+"/files/FibText-main/icons8-text-cursor-96.png");
+    QSize size(50,50);
+    QPixmap scalemap = dir.scaled(size, Qt::KeepAspectRatio);
+    QPixmap scalemap1 = dir1.scaled(size, Qt::KeepAspectRatio);
+    QPixmap scalemap2 = dir2.scaled(size, Qt::KeepAspectRatio);
+    cursor = QCursor(scalemap,13,0);
+    cursor1 = QCursor(scalemap1,40,0);
+    cursor2 = QCursor(scalemap2,40,0);
+    ui->pushButton->setCursor(cursor);
+    ui->pushButton_2->setCursor(cursor);
+    ui->pushButton_3->setCursor(cursor);
+    ui->pushButton_4->setCursor(cursor);
+    ui->pushButton_5->setCursor(cursor);
+    ui->pushButton_6->setCursor(cursor);
+    ui->pushButton_7->setCursor(cursor);
+    ui->pushButton_8->setCursor(cursor);
+    ui->pushButton_9->setCursor(cursor);
+    ui->pushButton_10->setCursor(cursor);
+    ui->pushButton_11->setCursor(cursor);
+    ui->pushButton_12->setCursor(cursor);
+    ui->pushButton_13->setCursor(cursor);
+    ui->pushButton_14->setCursor(cursor);
+    ui->pushButton_15->setCursor(cursor);
+    ui->pushButton_16->setCursor(cursor);
+    ui->textEdit_1->viewport()->setCursor(cursor2);
+    ui->textEdit_2->viewport()->setCursor(cursor2);
+    this->setCursor(cursor1);
 }
 
 myTestWidget::~myTestWidget()
