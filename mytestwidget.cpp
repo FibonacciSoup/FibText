@@ -45,6 +45,10 @@ myTestWidget::myTestWidget(QWidget *parent) :
     connect(ui->textEdit_1,SIGNAL(cursorPositionChanged()),this,SLOT(leftShowLineNum()));
     connect(ui->textEdit_2,SIGNAL(cursorPositionChanged()),this,SLOT(rightShowLineNum()));
 
+    //防止在编辑文本时高亮
+    connect(ui->textEdit_1,SIGNAL(cursorPositionChanged()),this,SLOT(leftSetWhiteBrush()));
+    connect(ui->textEdit_2,SIGNAL(cursorPositionChanged()),this,SLOT(rightSetWhiteBrush()));
+
     //set icon for cursor
     QCursor cursor,cursor1,cursor2;
     QString s = QCoreApplication::applicationDirPath();
@@ -75,6 +79,9 @@ myTestWidget::myTestWidget(QWidget *parent) :
     ui->pushButton_14->setCursor(cursor);
     ui->pushButton_15->setCursor(cursor);
     ui->pushButton_16->setCursor(cursor);
+    ui->pushButton_17->setCursor(cursor);
+    ui->pushButton_18->setCursor(cursor);
+    ui->pushButton_19->setCursor(cursor);
     ui->textEdit_1->viewport()->setCursor(cursor2);
     ui->textEdit_2->viewport()->setCursor(cursor2);
     this->setCursor(cursor1);
@@ -161,6 +168,7 @@ void highlight_out(QTextEdit* te, QString* s, QString* s1){
         QString tmp(s1->at(i));
         te->insertPlainText(tmp);
     }
+    te->setCurrentCharFormat(f2);
 }
 
 void my_compare(int x,int y,QString* s1,QString* s2,QString* ans1,QString* ans2){
@@ -254,4 +262,32 @@ void myTestWidget::rightShowLineNum()
     QString s="第 ";
     s=s+QString::number(lineNum)+" 行, 第 "+QString::number(columnNum)+" 列";
     ui->label_2->setText(s);
+}
+
+void myTestWidget::on_pushButton_17_clicked()
+{
+    QString text = ui->textEdit_1->toPlainText();
+    ui->textEdit_1->setPlainText(text);
+}
+
+void myTestWidget::on_pushButton_18_clicked()
+{
+    QString text = ui->textEdit_2->toPlainText();
+    ui->textEdit_2->setPlainText(text);
+}
+
+void myTestWidget::leftSetWhiteBrush()
+{
+    QBrush b(QColor(255,255,255));
+    QTextCharFormat f;
+    f.setBackground(b);
+    ui->textEdit_1->setCurrentCharFormat(f);
+}
+
+void myTestWidget::rightSetWhiteBrush()
+{
+    QBrush b(QColor(255,255,255));
+    QTextCharFormat f;
+    f.setBackground(b);
+    ui->textEdit_2->setCurrentCharFormat(f);
 }

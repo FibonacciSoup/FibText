@@ -42,6 +42,14 @@ private slots:
 
     void rightShowLineNum();
 
+    void on_pushButton_17_clicked();
+
+    void on_pushButton_18_clicked();
+
+    void leftSetWhiteBrush();
+
+    void rightSetWhiteBrush();
+
 private:
     Ui::myTestWidget *ui;
 };

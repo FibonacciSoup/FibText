@@ -211,7 +211,7 @@
     <rect>
      <x>90</x>
      <y>680</y>
-     <width>161</width>
+     <width>171</width>
      <height>16</height>
     </rect>
    </property>
@@ -224,7 +224,7 @@
     <rect>
      <x>580</x>
      <y>680</y>
-     <width>161</width>
+     <width>181</width>
      <height>16</height>
     </rect>
    </property>
@@ -314,14 +314,14 @@
     <widget class="QPushButton" name="pushButton_5">
      <property name="geometry">
       <rect>
-       <x>880</x>
+       <x>790</x>
        <y>10</y>
-       <width>121</width>
+       <width>101</width>
        <height>31</height>
       </rect>
      </property>
      <property name="text">
-      <string>查找</string>
+      <string>在左边查找</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit">
@@ -329,9 +329,22 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>851</width>
+       <width>771</width>
        <height>31</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_19">
+     <property name="geometry">
+      <rect>
+       <x>900</x>
+       <y>10</y>
+       <width>101</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>在右边查找</string>
      </property>
     </widget>
    </widget>
@@ -342,7 +355,7 @@
     <widget class="QPushButton" name="pushButton_8">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>60</x>
        <y>10</y>
        <width>101</width>
        <height>31</height>
@@ -355,7 +368,7 @@
     <widget class="QPushButton" name="pushButton_10">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>180</x>
        <y>10</y>
        <width>101</width>
        <height>31</height>
@@ -368,7 +381,7 @@
     <widget class="QPushButton" name="pushButton_9">
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>550</x>
        <y>10</y>
        <width>101</width>
        <height>31</height>
@@ -381,7 +394,7 @@
     <widget class="QPushButton" name="pushButton_11">
      <property name="geometry">
       <rect>
-       <x>530</x>
+       <x>670</x>
        <y>10</y>
        <width>101</width>
        <height>31</height>
@@ -389,6 +402,32 @@
      </property>
      <property name="text">
       <string>字符数统计</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>16</x>
+       <y>17</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>左边</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>16</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>右边</string>
      </property>
     </widget>
    </widget>
@@ -419,6 +458,43 @@
      <width>41</width>
      <height>531</height>
     </rect>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_17">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>100</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>取消高亮</string>
+   </property>
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/letter/A.png</normaloff>:/letter/A.png</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_18">
+   <property name="geometry">
+    <rect>
+     <x>790</x>
+     <y>100</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>取消高亮</string>
+   </property>
+   <property name="icon">
+    <iconset resource="image.qrc">
+     <normaloff>:/letter/A.png</normaloff>:/letter/A.png</iconset>
    </property>
   </widget>
  </widget>

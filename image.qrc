@@ -8,4 +8,7 @@
     <qresource prefix="/clear">
         <file>clear.png</file>
     </qresource>
+    <qresource prefix="/letter">
+        <file>A.png</file>
+    </qresource>
 </RCC>
