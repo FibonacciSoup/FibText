@@ -1,4 +1,5 @@
 #include "mytestwidget.h"
+#include "viewdialog.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

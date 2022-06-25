@@ -1,16 +1,21 @@
-#include "mytestwidget.h"
-#include "ui_mytestwidget.h"
+#include <iostream>
+#include <cstring>
+#include <algorithm>
 #include <QFileDialog>
 #include <QTextStream>
 #include <QBrush>
 #include <QTextCharFormat>
 #include <QScrollBar>
 #include <QTextCursor>
-#include <iostream>
-#include <cstring>
-#include <algorithm>
 #include <QApplication>
 #include <QDebug>
+#include <QFont>
+#include <QTextEdit>
+#include <QColor>
+#include "mytestwidget.h"
+#include "ui_mytestwidget.h"
+#include "viewdialog.h"
+#include "ui_viewdialog.h"
 
 typedef long long LL;
 
@@ -74,7 +79,7 @@ myTestWidget::myTestWidget(QWidget *parent) :
     ui->pushButton_9->setCursor(cursor);
     ui->pushButton_10->setCursor(cursor);
     ui->pushButton_11->setCursor(cursor);
-    ui->pushButton_12->setCursor(cursor);
+    ui->pushButtonViewDialog->setCursor(cursor);
     ui->pushButton_13->setCursor(cursor);
     ui->pushButton_14->setCursor(cursor);
     ui->pushButton_15->setCursor(cursor);
@@ -85,11 +90,26 @@ myTestWidget::myTestWidget(QWidget *parent) :
     ui->textEdit_1->viewport()->setCursor(cursor2);
     ui->textEdit_2->viewport()->setCursor(cursor2);
     this->setCursor(cursor1);
+
+    m_pViewdialog = NULL;
+
+    textStyleSheet_default = "color: rgb(0,0,0); font: Normal 9pt \"宋体\"; ";
+    textStyleSheet_1 = "color: %1; font: %2; ";
+    textStyleSheet_2 = "color: %1; font: %2; ";
+    qssColor_1 = "rgb(0,0,0)";
+    qssColor_2 = "rgb(0,0,0)";
+    qssFont_1 = "Normal 9pt \"宋体\"";
+    qssFont_2 = "Normal 9pt \"宋体\"";
 }
 
 myTestWidget::~myTestWidget()
 {
     delete ui;
+
+    if (m_pViewdialog != NULL){
+        delete m_pViewdialog;
+        m_pViewdialog = NULL;
+    }
 }
 
 void myTestWidget::on_pushButton_clicked()
@@ -268,13 +288,13 @@ void myTestWidget::on_pushButton_17_clicked()
 {
     QString text = ui->textEdit_1->toPlainText();
     ui->textEdit_1->setPlainText(text);
-}
+} //取消高亮
 
 void myTestWidget::on_pushButton_18_clicked()
 {
     QString text = ui->textEdit_2->toPlainText();
     ui->textEdit_2->setPlainText(text);
-}
+} //取消高亮
 
 void myTestWidget::leftSetWhiteBrush()
 {
@@ -290,4 +310,84 @@ void myTestWidget::rightSetWhiteBrush()
     QTextCharFormat f;
     f.setBackground(b);
     ui->textEdit_2->setCurrentCharFormat(f);
+}
+
+void myTestWidget::on_pushButtonViewDialog_clicked()
+{
+    if ( NULL == m_pViewdialog ){
+        m_pViewdialog = new viewDialog(this);
+    }
+    m_pViewdialog->exec();
+
+/*    if (m_pViewdialog->exec() == QDialog::Accepted){
+        qDebug() << "QDialog::Accepted";
+    }else{
+        qDebug() << "QDialog::Closed";
+    }*/
+}
+
+void myTestWidget::leftSetQSSColor(QColor c)
+{
+    qssColor_1 = "rgb(%1,%2,%3)";
+    qssColor_1 = qssColor_1.arg(c.red()).arg(c.green()).arg(c.blue());
+}
+
+void myTestWidget::leftSetQSSFont(QFont f)
+{
+    qssFont_1 = "%1 %2pt \"%3\"";
+    qssFont_1 = qssFont_1.arg(f.styleName()).arg(f.pointSize()).arg(f.family());
+}
+
+void myTestWidget::leftSetColor(QColor c)
+{
+    leftSetQSSColor(c);
+    textStyleSheet_1 = "color: %1; font: %2; ";
+    textStyleSheet_1 = textStyleSheet_1.arg(qssColor_1).arg(qssFont_1);
+    ui->textEdit_1->setStyleSheet(textStyleSheet_1);
+}
+
+void myTestWidget::leftSetFont(QFont f)
+{
+    leftSetQSSFont(f);
+    textStyleSheet_1 = "color: %1; font: %2; ";
+    textStyleSheet_1 = textStyleSheet_1.arg(qssColor_1).arg(qssFont_1);
+    ui->textEdit_1->setStyleSheet(textStyleSheet_1);
+}
+
+void myTestWidget::rightSetQSSColor(QColor c)
+{
+    qssColor_2 = "rgb(%1,%2,%3)";
+    qssColor_2 = qssColor_2.arg(c.red()).arg(c.green()).arg(c.blue());
+}
+
+void myTestWidget::rightSetQSSFont(QFont f)
+{
+    qssFont_2 = "%1 %2pt \"%3\"";
+    qssFont_2 = qssFont_2.arg(f.styleName()).arg(f.pointSize()).arg(f.family());
+}
+
+void myTestWidget::rightSetColor(QColor c)
+{
+    rightSetQSSColor(c);
+    textStyleSheet_2 = "color: %1; font: %2; ";
+    textStyleSheet_2 = textStyleSheet_2.arg(qssColor_2).arg(qssFont_2);
+    ui->textEdit_2->setStyleSheet(textStyleSheet_2);
+}
+
+void myTestWidget::rightSetFont(QFont f)
+{
+    rightSetQSSFont(f);
+    textStyleSheet_2 = "color: %1; font: %2; ";
+    textStyleSheet_2 = textStyleSheet_2.arg(qssColor_2).arg(qssFont_2);
+    ui->textEdit_2->setStyleSheet(textStyleSheet_2);
+}
+
+void myTestWidget::setDefaultFont()
+{
+    ui->textEdit_1->setStyleSheet(textStyleSheet_default);
+    ui->textEdit_2->setStyleSheet(textStyleSheet_default);
+    qssColor_1 = "rgb(0,0,0)";
+    qssColor_2 = "rgb(0,0,0)";
+    qssFont_1 = "Normal 9pt \"宋体\"";
+    qssFont_2 = "Normal 9pt \"宋体\"";
 }

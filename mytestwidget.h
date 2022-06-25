@@ -2,10 +2,14 @@
 #define MYTESTWIDGET_H
 
 #include <QWidget>
+#include "viewdialog.h"
+#include "ui_viewdialog.h"
 
 namespace Ui {
 class myTestWidget;
 }
+
+class viewDialog;
 
 class myTestWidget : public QWidget
 {
@@ -14,6 +18,15 @@ class myTestWidget : public QWidget
 public:
     explicit myTestWidget(QWidget *parent = 0);
     ~myTestWidget();
+    void leftSetQSSColor(QColor c);
+    void leftSetQSSFont(QFont f);
+    void leftSetColor(QColor c);
+    void leftSetFont(QFont f);
+    void rightSetQSSColor(QColor c);
+    void rightSetQSSFont(QFont f);
+    void rightSetColor(QColor c);
+    void rightSetFont(QFont f);
+    void setDefaultFont();
 
 private slots:
     void on_pushButton_clicked();
@@ -50,8 +63,18 @@ private slots:
 
     void rightSetWhiteBrush();
 
+    void on_pushButtonViewDialog_clicked();
+
 private:
     Ui::myTestWidget *ui;
+    viewDialog *m_pViewdialog;
+    QString textStyleSheet_default;
+    QString textStyleSheet_1;
+    QString textStyleSheet_2;
+    QString qssColor_1;
+    QString qssColor_2;
+    QString qssFont_1;
+    QString qssFont_2;
 };
 
 #endif // MYTESTWIDGET_H
