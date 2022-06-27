@@ -67,6 +67,10 @@ private slots:
 
     void on_pushButtonViewDialog_clicked();
 
+    void clearList();
+
+    void moveToRow(int x);
+
 private:
     Ui::myTestWidget *ui;
     viewDialog *m_pViewdialog;

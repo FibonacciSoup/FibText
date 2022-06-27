@@ -23,7 +23,7 @@ typedef long long LL;
 
 const int maxn=2000;
 
-static int pU,pL,pR,enter_left[maxn],enter_right[maxn],f[maxn][maxn];
+static int tem,pU,enter_left[maxn],enter_right[maxn],f[maxn][maxn];
 static std::vector<int>unmatched_pos_left,unmatched_pos_right,unmatched_row_left,unmatched_row_right,unmatched;
 
 myTestWidget::myTestWidget(QWidget *parent) :
@@ -101,6 +101,10 @@ myTestWidget::myTestWidget(QWidget *parent) :
     qssColor_2 = "rgb(0,0,0)";
     qssFont_1 = "Normal 9pt \"宋体\"";
     qssFont_2 = "Normal 9pt \"宋体\"";
+
+    connect(ui->pushButton_15,SIGNAL(clicked()),this,SLOT(clearList()));
+    connect(ui->pushButton_16,SIGNAL(clicked()),this,SLOT(clearList()));
+    //clear listwidget when any of the textEditWidget is cleared
 }
 
 myTestWidget::~myTestWidget()
@@ -236,7 +240,7 @@ void myTestWidget::on_pushButton_6_clicked()
     memset(f,0,sizeof(f));
     while(!unmatched_row_left.empty())unmatched_row_left.pop_back();
     while(!unmatched_row_right.empty())unmatched_row_right.pop_back();
-    pL=pR=0;pU=0;
+    pU=0;
     while(!unmatched_pos_left.empty())unmatched_pos_left.pop_back();
     while(!unmatched_pos_right.empty())unmatched_pos_right.pop_back();
     while(!unmatched.empty())unmatched.pop_back();
@@ -265,8 +269,8 @@ void myTestWidget::on_pushButton_6_clicked()
     unmatched.insert(unmatched.end(),unmatched_row_left.begin(),unmatched_row_left.end());
     unmatched.insert(unmatched.end(),unmatched_row_right.begin(),unmatched_row_right.end());
     std::sort(unmatched.begin(),unmatched.end());
-    int t=std::unique(unmatched.begin(),unmatched.end())-unmatched.begin();
-    for(int i=0;i<t;i++){
+    tem=std::unique(unmatched.begin(),unmatched.end())-unmatched.begin();
+    for(int i=0;i<tem;i++){
         int itemCount = ui->listWidget->count();
             QListWidgetItem * item = new QListWidgetItem;
             item->setSizeHint(QSize(ui->listWidget->width(),20));
@@ -281,16 +285,21 @@ void myTestWidget::on_pushButton_6_clicked()
 void myTestWidget::on_pushButton_7_clicked(){
     QTextCursor tc_left=ui->textEdit_1->textCursor();
     QTextCursor tc_right=ui->textEdit_2->textCursor();
+    if(pU==0){
+        tc_left.movePosition(QTextCursor::Start);
+        tc_right.movePosition(QTextCursor::Start);
+    }
     int row_left=tc_left.blockNumber(),row_right=tc_right.blockNumber();
     int total_row_L = ui->textEdit_1->document()->lineCount();
     int total_row_R = ui->textEdit_2->document()->lineCount();
-    if(pU>=static_cast<int>(unmatched.size()))return;
+    if(pU>=tem)return;
     if(unmatched[pU]>total_row_L&&unmatched[pU]>total_row_R)return;
     if(unmatched[pU]<=total_row_R)tc_right.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, unmatched[pU]-row_right);
         else tc_right.movePosition(QTextCursor::End,QTextCursor::MoveAnchor);
     if(unmatched[pU]<=total_row_L)tc_left.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, unmatched[pU]-row_left);
         else tc_left.movePosition(QTextCursor::End,QTextCursor::MoveAnchor);
-    if(pU<static_cast<int>(unmatched.size()))++pU;
+    if(pU+1<tem)++pU;
+        else pU=0;
     ui->textEdit_1->setTextCursor(tc_left);
     ui->textEdit_2->setTextCursor(tc_right);
 }//turn to the row of the next unmatched word
@@ -449,4 +458,25 @@ void myTestWidget::setDefaultFont()
     qssColor_2 = "rgb(0,0,0)";
     qssFont_1 = "Normal 9pt \"宋体\"";
     qssFont_2 = "Normal 9pt \"宋体\"";
+}
+
+void myTestWidget::clearList(){
+    ui->listWidget->clear();
+}
+
+void myTestWidget::moveToRow(int x){
+    pU=x;
+    QTextCursor tc_left=ui->textEdit_1->textCursor();
+    QTextCursor tc_right=ui->textEdit_2->textCursor();
+    tc_left.movePosition(QTextCursor::Start);
+    tc_right.movePosition(QTextCursor::Start);
+    int row_left=tc_left.blockNumber(),row_right=tc_right.blockNumber();
+    int total_row_L = ui->textEdit_1->document()->lineCount();
+    int total_row_R = ui->textEdit_2->document()->lineCount();
+    if(unmatched[pU]<=total_row_R)tc_right.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, unmatched[pU]-row_right);
+        else tc_right.movePosition(QTextCursor::End,QTextCursor::MoveAnchor);
+    if(unmatched[pU]<=total_row_L)tc_left.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, unmatched[pU]-row_left);
+        else tc_left.movePosition(QTextCursor::End,QTextCursor::MoveAnchor);
+    if(pU+1<tem)++pU;
+        else pU=0;
 }
