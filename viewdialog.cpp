@@ -18,7 +18,7 @@ viewDialog::viewDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->labelColor->setStyleSheet("background-color: rgb(0,0,0); ");
-    myParent = (myTestWidget*)parent;
+    myParent = static_cast<myTestWidget*>(parent);
 
     g_textColor.setRgb(0,0,0);
     g_textFont = ui->labelFont->font();

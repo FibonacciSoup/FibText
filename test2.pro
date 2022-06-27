@@ -23,4 +23,5 @@ FORMS    += mytestwidget.ui \
         viewdialog.ui
 
 RESOURCES += \
+        icon.qrc \
         image.qrc

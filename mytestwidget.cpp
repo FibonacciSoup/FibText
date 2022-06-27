@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <algorithm>
+#include <vector>
 #include <QFileDialog>
 #include <QTextStream>
 #include <QBrush>
@@ -12,6 +13,7 @@
 #include <QFont>
 #include <QTextEdit>
 #include <QColor>
+#include <QTextDocument>
 #include "mytestwidget.h"
 #include "ui_mytestwidget.h"
 #include "viewdialog.h"
@@ -21,7 +23,8 @@ typedef long long LL;
 
 const int maxn=2000;
 
-static int f[maxn][maxn];
+static int pU,pL,pR,enter_left[maxn],enter_right[maxn],f[maxn][maxn];
+static std::vector<int>unmatched_pos_left,unmatched_pos_right,unmatched_row_left,unmatched_row_right,unmatched;
 
 myTestWidget::myTestWidget(QWidget *parent) :
     QWidget(parent),
@@ -56,11 +59,9 @@ myTestWidget::myTestWidget(QWidget *parent) :
 
     //set icon for cursor
     QCursor cursor,cursor1,cursor2;
-    QString s = QCoreApplication::applicationDirPath();
-    LL p = s.indexOf("build",0);
-    QPixmap dir(s.left(p)+"/files/FibText-main/app-gda6cc8040_640.png");
-    QPixmap dir1(s.left(p)+"/files/FibText-main/app-g1ea771702_640.png");
-    QPixmap dir2(s.left(p)+"/files/FibText-main/app-g4ecdf12e9_640.png");
+    QPixmap dir(":/icon/arrow.png");
+    QPixmap dir1(":/icon/cross.png");
+    QPixmap dir2(":/icon/biarrow.png");
     QSize size(30,30);
     QPixmap scalemap = dir.scaled(size, Qt::KeepAspectRatio);
     QPixmap scalemap1 = dir1.scaled(size, Qt::KeepAspectRatio);
@@ -196,11 +197,15 @@ void my_compare(int x,int y,QString* s1,QString* s2,QString* ans1,QString* ans2)
     if(x==0){
         my_compare(x,y-1,s1,s2,ans1,ans2);
         ans2->append('_');
+        unmatched_row_right.push_back(enter_right[y]);
+        unmatched_pos_right.push_back(y);
         return;
     }
     if(y==0){
         my_compare(x-1,y,s1,s2,ans1,ans2);
         ans1->append('_');
+        unmatched_row_left.push_back(enter_left[x]);
+        unmatched_pos_left.push_back(x);
         return;
     }
     if(s1->at(x-1)==s2->at(y-1)){
@@ -212,9 +217,13 @@ void my_compare(int x,int y,QString* s1,QString* s2,QString* ans1,QString* ans2)
     if(f[x-1][y]>f[x][y-1]){
         my_compare(x-1,y,s1,s2,ans1,ans2);
         ans1->append('_');
+        unmatched_row_left.push_back(enter_left[x]);
+        unmatched_pos_left.push_back(x);
     }else{
         my_compare(x,y-1,s1,s2,ans1,ans2);
         ans2->append('_');
+        unmatched_row_right.push_back(enter_right[y]);
+        unmatched_pos_right.push_back(y);
     }
 }
 
@@ -224,6 +233,15 @@ void myTestWidget::on_pushButton_6_clicked()
     QString s2 = ui->textEdit_2->toPlainText();
     int len1=static_cast<int>(s1.length());
     int len2=static_cast<int>(s2.length());
+    memset(f,0,sizeof(f));
+    while(!unmatched_row_left.empty())unmatched_row_left.pop_back();
+    while(!unmatched_row_right.empty())unmatched_row_right.pop_back();
+    pL=pR=0;pU=0;
+    while(!unmatched_pos_left.empty())unmatched_pos_left.pop_back();
+    while(!unmatched_pos_right.empty())unmatched_pos_right.pop_back();
+    while(!unmatched.empty())unmatched.pop_back();
+    for(int i=1;i<=len1;i++) enter_left[i]=enter_left[i-1]+(s1.at(i-1)=='\n'||s1.at(i-1)=='\r');
+    for(int i=1;i<=len2;i++) enter_right[i]=enter_right[i-1]+(s2.at(i-1)=='\n'||s2.at(i-1)=='\r');
     for(int i=1;i<=len1;i++)
         for(int j=1;j<=len2;j++)
             if(s1.at(i-1)==s2.at(j-1))f[i][j]=f[i-1][j-1]+1;
@@ -234,7 +252,48 @@ void myTestWidget::on_pushButton_6_clicked()
     //ui->textEdit_2->setText(ans2);
     highlight_out(ui->textEdit_1,&ans1,&s1);
     highlight_out(ui->textEdit_2,&ans2,&s2);
+    //highlight the unmatched words
+
+    QTextCursor tc_left=ui->textEdit_1->textCursor();
+    QTextCursor tc_right=ui->textEdit_2->textCursor();
+    tc_left.movePosition(QTextCursor::Start);
+    tc_right.movePosition(QTextCursor::Start);
+    ui->textEdit_1->setTextCursor(tc_left);
+    ui->textEdit_2->setTextCursor(tc_right);
+
+    ui->listWidget->clear();
+    unmatched.insert(unmatched.end(),unmatched_row_left.begin(),unmatched_row_left.end());
+    unmatched.insert(unmatched.end(),unmatched_row_right.begin(),unmatched_row_right.end());
+    std::sort(unmatched.begin(),unmatched.end());
+    int t=std::unique(unmatched.begin(),unmatched.end())-unmatched.begin();
+    for(int i=0;i<t;i++){
+        int itemCount = ui->listWidget->count();
+            QListWidgetItem * item = new QListWidgetItem;
+            item->setSizeHint(QSize(ui->listWidget->width(),20));
+            item->setText(QString::fromStdString(std::to_string(unmatched[i]+1)).arg(itemCount));
+//            item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsUserCheckable);
+//            item->setCheckState(Qt::Unchecked);
+            ui->listWidget->addItem(item);
+    }
+    //show the row number of the unmatched words
 }//文本比较
+
+void myTestWidget::on_pushButton_7_clicked(){
+    QTextCursor tc_left=ui->textEdit_1->textCursor();
+    QTextCursor tc_right=ui->textEdit_2->textCursor();
+    int row_left=tc_left.blockNumber(),row_right=tc_right.blockNumber();
+    int total_row_L = ui->textEdit_1->document()->lineCount();
+    int total_row_R = ui->textEdit_2->document()->lineCount();
+    if(pU>=static_cast<int>(unmatched.size()))return;
+    if(unmatched[pU]>total_row_L&&unmatched[pU]>total_row_R)return;
+    if(unmatched[pU]<=total_row_R)tc_right.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, unmatched[pU]-row_right);
+        else tc_right.movePosition(QTextCursor::End,QTextCursor::MoveAnchor);
+    if(unmatched[pU]<=total_row_L)tc_left.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, unmatched[pU]-row_left);
+        else tc_left.movePosition(QTextCursor::End,QTextCursor::MoveAnchor);
+    if(pU<static_cast<int>(unmatched.size()))++pU;
+    ui->textEdit_1->setTextCursor(tc_left);
+    ui->textEdit_2->setTextCursor(tc_right);
+}//turn to the row of the next unmatched word
 
 void myTestWidget::leftVerticalScroll()
 {
