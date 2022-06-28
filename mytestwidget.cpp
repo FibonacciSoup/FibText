@@ -284,6 +284,68 @@ void myTestWidget::on_pushButton_6_clicked()
     //show the row number of the unmatched words
 }//文本比较
 
+void myTestWidget::on_pushButton_10_clicked()
+{
+    QString s1 = ui->textEdit_1->toPlainText();
+    int l1=static_cast<int>(s1.length());
+    ui->lcdNumber_1->display(l1);
+}//左文本框字符数统计
+
+void myTestWidget::on_pushButton_11_clicked()
+{
+    QString s2 = ui->textEdit_2->toPlainText();
+    int l2=static_cast<int>(s2.length());
+    ui->lcdNumber_2->display(l2);
+}//右文本框字符统计
+
+int myTestWidget::isadigit(QChar a)
+{
+    if((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z')) return 1;
+    else return 0;
+}//判断是否为字母，用于判断单词数
+
+void myTestWidget::on_pushButton_8_clicked()
+{
+    QString s1 = ui->textEdit_1->toPlainText();
+    int len1=static_cast<int>(s1.length());
+    int count_1 = 0;
+    int flagk;
+    for(flagk = 0;flagk < len1;flagk++){
+        if(isadigit(s1.at(flagk)) == 1){
+            count_1++;
+            break;
+        }
+    }
+    for(int i = flagk;i < len1 - 1;i++){
+        if(isadigit(s1.at(i)) == 0 && isadigit(s1.at(i + 1)) == 1){
+            if(isadigit(s1.at(i - 1)) == 1 && s1.at(i) == '-') continue;
+            else count_1++;
+        }
+    }
+    ui->lcdNumber_1->display(count_1);
+}//左文本框单词数统计
+
+void myTestWidget::on_pushButton_9_clicked()
+{
+    QString s2 = ui->textEdit_2->toPlainText();
+    int len2=static_cast<int>(s2.length());
+    int count_2 = 0;
+    int flagk;
+    for(flagk = 0;flagk < len2;flagk++){
+        if(isadigit(s2.at(flagk)) == 1){
+            count_2++;
+            break;
+        }
+    }
+    for(int i = flagk;i < len2 - 1;i++){
+        if(isadigit(s2.at(i)) == 0 && isadigit(s2.at(i + 1)) == 1){
+            if(isadigit(s2.at(i - 1)) == 1 && s2.at(i) == '-') continue;
+            else count_2++;
+        }
+    }
+    ui->lcdNumber_2->display(count_2);
+}//右文本框单词数统计
+
 void myTestWidget::on_pushButton_7_clicked(){
     QTextCursor tc_left=ui->textEdit_1->textCursor();
     QTextCursor tc_right=ui->textEdit_2->textCursor();
