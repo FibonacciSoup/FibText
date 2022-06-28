@@ -105,6 +105,8 @@ myTestWidget::myTestWidget(QWidget *parent) :
     connect(ui->pushButton_15,SIGNAL(clicked()),this,SLOT(clearList()));
     connect(ui->pushButton_16,SIGNAL(clicked()),this,SLOT(clearList()));
     //clear listwidget when any of the textEditWidget is cleared
+
+    connect(ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(changeMove()));
 }
 
 myTestWidget::~myTestWidget()
@@ -275,7 +277,7 @@ void myTestWidget::on_pushButton_6_clicked()
             QListWidgetItem * item = new QListWidgetItem;
             item->setSizeHint(QSize(ui->listWidget->width(),20));
             item->setText(QString::fromStdString(std::to_string(unmatched[i]+1)).arg(itemCount));
-//            item->setFlags(Qt::ItemIsEditable|Qt::ItemIsEnabled|Qt::ItemIsUserCheckable);
+//            item->setFlags(Qt::ItemIsEnabled);
 //            item->setCheckState(Qt::Unchecked);
             ui->listWidget->addItem(item);
     }
@@ -464,8 +466,16 @@ void myTestWidget::clearList(){
     ui->listWidget->clear();
 }
 
+void myTestWidget::changeMove(){
+    QListWidgetItem *item = ui->listWidget->currentItem();
+    QString s = item->text();
+    int x = s.toInt();
+    moveToRow(x);
+}
+
 void myTestWidget::moveToRow(int x){
-    pU=x;
+    pU=static_cast<int>(std::lower_bound(unmatched.begin(),unmatched.begin()+tem,x-1)-unmatched.begin());
+
     QTextCursor tc_left=ui->textEdit_1->textCursor();
     QTextCursor tc_right=ui->textEdit_2->textCursor();
     tc_left.movePosition(QTextCursor::Start);
@@ -479,4 +489,6 @@ void myTestWidget::moveToRow(int x){
         else tc_left.movePosition(QTextCursor::End,QTextCursor::MoveAnchor);
     if(pU+1<tem)++pU;
         else pU=0;
+    ui->textEdit_1->setTextCursor(tc_left);
+    ui->textEdit_2->setTextCursor(tc_right);
 }

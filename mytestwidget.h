@@ -69,7 +69,9 @@ private slots:
 
     void clearList();
 
-    void moveToRow(int x);
+    void moveToRow(int);
+
+    void changeMove();
 
 private:
     Ui::myTestWidget *ui;
