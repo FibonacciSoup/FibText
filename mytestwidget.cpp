@@ -328,21 +328,29 @@ void myTestWidget::on_pushButton_10_clicked()
 {
     QString s1 = ui->textEdit_1->toPlainText();
     int l1=static_cast<int>(s1.length());
-    ui->lcdNumber_1->display(l1);
+    int count_1 = 0;
+    for(int i = 0;i < l1;i++){
+        if(s1.at(i) != ' ' && s1.at(i) != '\n') count_1++;
+    }
+    ui->lcdNumber_1->display(count_1);
 }//左文本框字符数统计
 
 void myTestWidget::on_pushButton_11_clicked()
 {
     QString s2 = ui->textEdit_2->toPlainText();
     int l2=static_cast<int>(s2.length());
-    ui->lcdNumber_2->display(l2);
+    int count_2 = 0;
+    for(int i = 0;i < l2;i++){
+        if(s2.at(i) != ' ' && s2.at(i) != '\n') count_2++;
+    }
+    ui->lcdNumber_2->display(count_2);
 }//右文本框字符统计
 
 int myTestWidget::isadigit(QChar a)
 {
-    if((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z')) return 1;
+    if((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z') || (a >= '0' && a <= '9')) return 1;
     else return 0;
-}//判断是否为字母，用于判断单词数
+}//判断是否为字母或数字，用于判断单词数
 
 void myTestWidget::on_pushButton_8_clicked()
 {
