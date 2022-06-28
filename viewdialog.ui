@@ -109,9 +109,9 @@
    <widget class="QPushButton" name="pushButtonFont">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>30</y>
-      <width>95</width>
+      <width>111</width>
       <height>32</height>
      </rect>
     </property>
@@ -122,8 +122,8 @@
    <widget class="QLabel" name="labelFont">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>25</y>
+      <x>140</x>
+      <y>24</y>
       <width>151</width>
       <height>41</height>
      </rect>

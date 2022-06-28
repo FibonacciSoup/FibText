@@ -13,15 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mytestwidget.cpp \
-        viewdialog.cpp
+           mytestwidget.cpp \
+           viewdialog.cpp
 
 HEADERS  += mytestwidget.h \
-        viewdialog.h
+            viewdialog.h
 
 FORMS    += mytestwidget.ui \
-        viewdialog.ui
+            viewdialog.ui
 
 RESOURCES += \
-        icon.qrc \
-        image.qrc
+             icon.qrc \
+             image.qrc

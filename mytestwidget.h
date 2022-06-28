@@ -83,6 +83,10 @@ private slots:
 
     int isadigit(QChar a);
 
+    void leftLCDclear();
+
+    void rightLCDclear();
+
 private:
     Ui::myTestWidget *ui;
     viewDialog *m_pViewdialog;
@@ -93,6 +97,9 @@ private:
     QString qssColor_2;
     QString qssFont_1;
     QString qssFont_2;
+    QString tabWidgetSS;
+    QString topPushbuttonSS;
+    QString textPushbuttonSS;
 };
 
 #endif // MYTESTWIDGET_H

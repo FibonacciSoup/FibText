@@ -81,8 +81,6 @@ myTestWidget::myTestWidget(QWidget *parent) :
     ui->pushButton_10->setCursor(cursor);
     ui->pushButton_11->setCursor(cursor);
     ui->pushButtonViewDialog->setCursor(cursor);
-    ui->pushButton_13->setCursor(cursor);
-    ui->pushButton_14->setCursor(cursor);
     ui->pushButton_15->setCursor(cursor);
     ui->pushButton_16->setCursor(cursor);
     ui->pushButton_17->setCursor(cursor);
@@ -107,6 +105,48 @@ myTestWidget::myTestWidget(QWidget *parent) :
     //clear listwidget when any of the textEditWidget is cleared
 
     connect(ui->listWidget,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(changeMove()));
+
+    connect(ui->textEdit_1,SIGNAL(textChanged()),this,SLOT(leftLCDclear()));
+    connect(ui->textEdit_2,SIGNAL(textChanged()),this,SLOT(rightLCDclear()));
+
+    //淡蓝色界面
+    tabWidgetSS = "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, "
+                  "stop:0 rgba(222, 240, 254, 255), stop:1 rgba(192, 222, 246, 255));"
+                  "border: none; font: 9.5pt \"黑体\"; color: rgb(20,50,80); ";
+    topPushbuttonSS = "QPushButton{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, "
+                      "stop:0 rgba(200, 230, 255, 255), stop:1 rgba(160, 200, 230, 255)); "
+                      "border: 1px solid rgb(85, 155, 220); }"
+                      "QPushButton:hover{background-color: rgb(225,235,255); }"
+                      "QPushButton:pressed{background-color: rgb(150,190,220); }";
+    textPushbuttonSS = "QPushButton{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, "
+                      "stop:0 rgba(222, 240, 254, 255), stop:1 rgba(192, 222, 246, 255)); "
+                      "border: 1px solid rgb(85, 155, 220); }"
+                      "QPushButton:hover{background-color: rgb(225,235,255); }"
+                      "QPushButton:pressed{background-color: rgb(150,190,220); }";
+
+    ui->frame_top->setStyleSheet("background-color: rgb(222, 240, 254);");
+    ui->frame_main->setStyleSheet("background-color: rgb(234, 247, 255);");
+    ui->tabWidget->setStyleSheet(tabWidgetSS);
+    ui->pushButton_6->setStyleSheet(topPushbuttonSS);
+    ui->pushButton_7->setStyleSheet(topPushbuttonSS);
+    ui->pushButton_5->setStyleSheet(topPushbuttonSS);
+    ui->pushButton_19->setStyleSheet(topPushbuttonSS);
+    ui->pushButton_8->setStyleSheet(topPushbuttonSS);
+    ui->pushButton_9->setStyleSheet(topPushbuttonSS);
+    ui->pushButton_10->setStyleSheet(topPushbuttonSS);
+    ui->pushButton_11->setStyleSheet(topPushbuttonSS);
+    ui->pushButtonViewDialog->setStyleSheet(topPushbuttonSS);
+    ui->lineEdit->setStyleSheet("border: 1px solid rgb(85,155,220); background-color: rgb(255,255,255); "
+                                "font: 9pt \"宋体\"; color: rgb(0,0,0); ");
+    ui->pushButton->setStyleSheet(textPushbuttonSS);
+    ui->pushButton_2->setStyleSheet(textPushbuttonSS);
+    ui->pushButton_3->setStyleSheet(textPushbuttonSS);
+    ui->pushButton_4->setStyleSheet(textPushbuttonSS);
+    ui->pushButton_15->setStyleSheet(textPushbuttonSS);
+    ui->pushButton_16->setStyleSheet(textPushbuttonSS);
+    ui->pushButton_17->setStyleSheet(textPushbuttonSS);
+    ui->pushButton_18->setStyleSheet(textPushbuttonSS);
+
 }
 
 myTestWidget::~myTestWidget()
@@ -345,6 +385,16 @@ void myTestWidget::on_pushButton_9_clicked()
     }
     ui->lcdNumber_2->display(count_2);
 }//右文本框单词数统计
+
+void myTestWidget::leftLCDclear()
+{
+    ui->lcdNumber_1->display(0);
+}
+
+void myTestWidget::rightLCDclear()
+{
+    ui->lcdNumber_2->display(0);
+}
 
 void myTestWidget::on_pushButton_7_clicked(){
     QTextCursor tc_left=ui->textEdit_1->textCursor();
