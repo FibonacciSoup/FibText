@@ -112,7 +112,7 @@ myTestWidget::myTestWidget(QWidget *parent) :
     //淡蓝色界面
     tabWidgetSS = "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, "
                   "stop:0 rgba(222, 240, 254, 255), stop:1 rgba(192, 222, 246, 255));"
-                  "border: none; font: 9.5pt \"黑体\"; color: rgb(20,50,80); ";
+                  "border: none; font: 16px \"黑体\"; color: rgb(20,50,80); ";
     topPushbuttonSS = "QPushButton{background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, "
                       "stop:0 rgba(200, 230, 255, 255), stop:1 rgba(160, 200, 230, 255)); "
                       "border: 1px solid rgb(85, 155, 220); }"
@@ -137,7 +137,7 @@ myTestWidget::myTestWidget(QWidget *parent) :
     ui->pushButton_11->setStyleSheet(topPushbuttonSS);
     ui->pushButtonViewDialog->setStyleSheet(topPushbuttonSS);
     ui->lineEdit->setStyleSheet("border: 1px solid rgb(85,155,220); background-color: rgb(255,255,255); "
-                                "font: 9pt \"宋体\"; color: rgb(0,0,0); ");
+                                "font: 15px \"宋体\"; color: rgb(0,0,0); ");
     ui->pushButton->setStyleSheet(textPushbuttonSS);
     ui->pushButton_2->setStyleSheet(textPushbuttonSS);
     ui->pushButton_3->setStyleSheet(textPushbuttonSS);
