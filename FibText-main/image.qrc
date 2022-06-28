@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/open">
+        <file>open2.png</file>
+    </qresource>
+    <qresource prefix="/save">
+        <file>save.png</file>
+    </qresource>
+    <qresource prefix="/clear">
+        <file>clear.png</file>
+    </qresource>
+    <qresource prefix="/letter">
+        <file>A.png</file>
+    </qresource>
+</RCC>
