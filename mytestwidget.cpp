@@ -21,7 +21,7 @@
 
 typedef long long LL;
 
-const int maxn=20000;
+const int maxn=5000;
 
 static int tem,pU,enter_left[maxn],enter_right[maxn],f[maxn][maxn];
 static std::vector<int>unmatched_pos_left,unmatched_pos_right,unmatched_row_left,unmatched_row_right,unmatched;
@@ -401,7 +401,8 @@ void myTestWidget::on_pushButton_5_clicked()
     QString search_text = ui->lineEdit->text();
         if (search_text.trimmed().isEmpty()) {
             return;
-        } else {
+        }
+        else {
 
             QTextDocument *document = ui->textEdit_1->document();
             bool found = false;
@@ -410,6 +411,7 @@ void myTestWidget::on_pushButton_5_clicked()
             cursor.beginEditBlock();
             QTextCharFormat color_format(highlight_cursor.charFormat());
             color_format.setForeground(Qt::red);
+            color_format.setFontWeight(QFont::Bold);
             while (!highlight_cursor.isNull() && !highlight_cursor.atEnd()) {
                 highlight_cursor = document->find(search_text, highlight_cursor, QTextDocument::FindWholeWords);
                 if (!highlight_cursor.isNull()) {
@@ -430,7 +432,8 @@ void myTestWidget::on_pushButton_19_clicked()
     QString search_text = ui->lineEdit->text();
         if (search_text.trimmed().isEmpty()) {
             return;
-        } else {
+        }
+        else {
             QTextDocument *document = ui->textEdit_2->document();
             bool found = false;
             QTextCursor highlight_cursor(document);
@@ -438,6 +441,7 @@ void myTestWidget::on_pushButton_19_clicked()
             cursor.beginEditBlock();
             QTextCharFormat color_format(highlight_cursor.charFormat());
             color_format.setForeground(Qt::red);
+            color_format.setFontWeight(QFont::Bold);
             while (!highlight_cursor.isNull() && !highlight_cursor.atEnd()) {
                 highlight_cursor = document->find(search_text, highlight_cursor, QTextDocument::FindWholeWords);
                 if (!highlight_cursor.isNull()) {
