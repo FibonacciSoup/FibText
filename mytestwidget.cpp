@@ -32,6 +32,7 @@ myTestWidget::myTestWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setFixedSize(this->width(),this->height()); //固定窗口大小
+    this->setWindowIcon(QIcon(":/icon/Fib.png"));//切换窗口左上角小图标
     ui->label->setText("第 1 行, 第 1 列");
     ui->label_2->setText("第 1 行, 第 1 列");
     ui->tabWidget->setTabText(0,"比较");
@@ -393,6 +394,63 @@ void myTestWidget::on_pushButton_9_clicked()
     }
     ui->lcdNumber_2->display(count_2);
 }//右文本框单词数统计
+
+void myTestWidget::on_pushButton_5_clicked()
+{
+    QString search_text = ui->lineEdit->text();
+        if (search_text.trimmed().isEmpty()) {
+            return;
+        } else {
+
+            QTextDocument *document = ui->textEdit_1->document();
+            bool found = false;
+            QTextCursor highlight_cursor(document);
+            QTextCursor cursor(document);
+            cursor.beginEditBlock();
+            QTextCharFormat color_format(highlight_cursor.charFormat());
+            color_format.setForeground(Qt::red);
+            while (!highlight_cursor.isNull() && !highlight_cursor.atEnd()) {
+                highlight_cursor = document->find(search_text, highlight_cursor, QTextDocument::FindWholeWords);
+                if (!highlight_cursor.isNull()) {
+                    if(!found)
+                        found = true;
+                    highlight_cursor.mergeCharFormat(color_format);
+                }
+            }
+            cursor.endEditBlock();
+            if (found == false) {
+                return;
+            }
+        }
+}
+
+void myTestWidget::on_pushButton_19_clicked()
+{
+    QString search_text = ui->lineEdit->text();
+        if (search_text.trimmed().isEmpty()) {
+            return;
+        } else {
+            QTextDocument *document = ui->textEdit_2->document();
+            bool found = false;
+            QTextCursor highlight_cursor(document);
+            QTextCursor cursor(document);
+            cursor.beginEditBlock();
+            QTextCharFormat color_format(highlight_cursor.charFormat());
+            color_format.setForeground(Qt::red);
+            while (!highlight_cursor.isNull() && !highlight_cursor.atEnd()) {
+                highlight_cursor = document->find(search_text, highlight_cursor, QTextDocument::FindWholeWords);
+                if (!highlight_cursor.isNull()) {
+                    if(!found)
+                        found = true;
+                    highlight_cursor.mergeCharFormat(color_format);
+                }
+            }
+            cursor.endEditBlock();
+            if (found == false) {
+                return;
+            }
+        }
+}
 
 void myTestWidget::leftLCDclear()
 {

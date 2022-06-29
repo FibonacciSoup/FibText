@@ -3,5 +3,6 @@
         <file>cross.png</file>
         <file>biarrow.png</file>
         <file>arrow.png</file>
+        <file>Fib.png</file>
     </qresource>
 </RCC>

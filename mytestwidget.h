@@ -87,6 +87,10 @@ private slots:
 
     void rightLCDclear();
 
+    void on_pushButton_5_clicked();
+
+    void on_pushButton_19_clicked();
+
 private:
     Ui::myTestWidget *ui;
     viewDialog *m_pViewdialog;
