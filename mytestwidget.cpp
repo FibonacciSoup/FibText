@@ -21,7 +21,7 @@
 
 typedef long long LL;
 
-const int maxn=2000;
+const int maxn=20000;
 
 static int tem,pU,enter_left[maxn],enter_right[maxn],f[maxn][maxn];
 static std::vector<int>unmatched_pos_left,unmatched_pos_right,unmatched_row_left,unmatched_row_right,unmatched;
@@ -148,6 +148,7 @@ myTestWidget::myTestWidget(QWidget *parent) :
     ui->pushButton_17->setStyleSheet(textPushbuttonSS);
     ui->pushButton_18->setStyleSheet(textPushbuttonSS);
 
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 myTestWidget::~myTestWidget()
@@ -257,8 +258,8 @@ void my_compare(int x,int y,QString* s1,QString* s2,QString* ans1,QString* ans2)
     }
     if(s1->at(x-1)==s2->at(y-1)){
         my_compare(x-1,y-1,s1,s2,ans1,ans2);
-        ans1->append(s1->at(x-1));
-        ans2->append(s2->at(y-1));
+        ans1->append('a');
+        ans2->append('a');
         return;
     }
     if(f[x-1][y]>f[x][y-1]){
