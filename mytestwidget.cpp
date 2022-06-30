@@ -425,7 +425,7 @@ void myTestWidget::on_pushButton_5_clicked()
                 return;
             }
         }
-}
+}//左文本框关键词查找
 
 void myTestWidget::on_pushButton_19_clicked()
 {
@@ -455,7 +455,7 @@ void myTestWidget::on_pushButton_19_clicked()
                 return;
             }
         }
-}
+}//右文本框关键词查找
 
 void myTestWidget::leftLCDclear()
 {
